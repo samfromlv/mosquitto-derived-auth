@@ -13,6 +13,7 @@
 
 #include <mosquitto.h>
 #include "mosquitto_plugin.h"
+#include <mosquitto_broker.h>
 
 #include <openssl/sha.h>
 
@@ -198,5 +199,22 @@ int mosquitto_auth_unpwd_check(void *user_data, struct mosquitto *client,
 
     const char *secret = secret_for_user(cfg, username);
     if(check_password(username, password, secret)) return MOSQ_ERR_SUCCESS;
+    return MOSQ_ERR_AUTH;
+}
+
+// Allow all pub/sub (no ACL logic)
+int mosquitto_auth_acl_check(void *user_data, int access, struct mosquitto *client,
+                            const struct mosquitto_acl_msg *msg)
+{
+    (void)user_data; (void)access; (void)client; (void)msg;
+    return MOSQ_ERR_SUCCESS;
+}
+
+// Optional: TLS-PSK stub (some builds expect this symbol too)
+int mosquitto_auth_psk_key_get(void *user_data, struct mosquitto *client,
+                              const char *hint, const char *identity,
+                              char *key, int max_key_len)
+{
+    (void)user_data; (void)client; (void)hint; (void)identity; (void)key; (void)max_key_len;
     return MOSQ_ERR_AUTH;
 }
