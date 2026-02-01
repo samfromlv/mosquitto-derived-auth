@@ -207,14 +207,5 @@ int mosquitto_auth_acl_check(void *user_data, int access, struct mosquitto *clie
                             const struct mosquitto_acl_msg *msg)
 {
     (void)user_data; (void)access; (void)client; (void)msg;
-    return MOSQ_ERR_SUCCESS;
-}
-
-// Optional: TLS-PSK stub (some builds expect this symbol too)
-int mosquitto_auth_psk_key_get(void *user_data, struct mosquitto *client,
-                              const char *hint, const char *identity,
-                              char *key, int max_key_len)
-{
-    (void)user_data; (void)client; (void)hint; (void)identity; (void)key; (void)max_key_len;
-    return MOSQ_ERR_AUTH;
+    return MOSQ_ERR_PLUGIN_DEFER;
 }
