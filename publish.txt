@@ -1,0 +1,2 @@
+//publish to Azure Container Registry
+az acr build -r <registryname> -t mosquitto-derived-auth:latest -f Dockerfile .
