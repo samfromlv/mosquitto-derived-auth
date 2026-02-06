@@ -10,6 +10,6 @@ COPY auth_derive.c .
 RUN gcc -fPIC -shared -O2 -D_FORTIFY_SOURCE=0 -o auth_derive.so auth_derive.c -lcrypto
 
 # Runtime: your existing mosquitto image (musl/alpine)
-FROM eclipse-mosquitto:2.0.22-openssl
+FROM eclipse-mosquitto:latest
 
 COPY --from=build /src/auth_derive.so /mosquitto/plugins/auth_derive.so
